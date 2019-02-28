@@ -126,7 +126,7 @@ train[is.na(train$BsmtFullBath),c("BsmtFullBath","BsmtHalfBath")]<-0
 
 ```{r LotFrontageImpute,fig.show='hold',fig.align='center',warning=FALSE,echo=FALSE}
 #train%>%ggplot(aes(y=LotFrontage,x=LotArea))+geom_point()+geom_smooth(method="loess")
-train%>%filter(LotArea<38000)%>%ggplot(aes(y=LotFrontage,x=LotArea))+geom_point(aes(color=LotShape))+geom_smooth(method="loess")
+train%>%filter(LotArea<38000)%>%ggplot(aes(y=LotFrontage,x=LotArea))+geom_point(aes(color=LotShape))+geom_smooth(method="loess")+ggtitle("Impute LotFrontage")
 
 ```
 
@@ -147,13 +147,13 @@ train[is.na(train$LotFrontage),"LotFrontage"]<-train_missing_predict
 ####Skewness of Target Variable
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,fig.height = 4, fig.width = 6.25, fig.align = "center"}
 train%>%ggplot(aes(SalePrice))+geom_density()+scale_x_continuous(labels = scales::comma)+ggtitle("Smooth Density Plot of SalePrice")
 ```
 
 To account for this we take the log of the SalePrice and store it in a variable called LSP
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,fig.height = 4, fig.width = 6.25, fig.align = "center"}
 train%>%ggplot(aes(log(SalePrice)))+geom_density()+ggtitle("Smooth Density Plot of Logarithmic SalePrice")
 train1<-train%>%mutate(LSP=log(SalePrice))
 
@@ -178,7 +178,7 @@ train%>%ggplot(aes(y=LSP,x=Alley))+geom_boxplot()+ggtitle("Alley vs Log SalePric
 
 train%>%ggplot(aes(y=LSP,x=LandContour))+geom_boxplot()+ggtitle("LandContour vs Log SalePrice")
 
-train%>%ggplot(aes(y=LSP,x=Utilities))+geom_boxplot()+ggtitle("Utilities vs LSP")+labs(subtitle="There is only 1 NoSewage entry which may not be enough to represent the effect properly ")
+train%>%ggplot(aes(y=LSP,x=Utilities))+geom_boxplot()+ggtitle("Utilities vs LSP")+labs(subtitle="There is only 1 NoSewage entry")
 
 
 train%>%ggplot(aes(y=LSP,x=LandSlope))+geom_boxplot()+ggtitle("LandSlope vs Log SalePrice")
